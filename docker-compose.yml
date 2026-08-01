@@ -1,0 +1,32 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - bundle-cache:/usr/local/bundle
+      - /app/vendor/bundle
+    environment:
+      - RAILS_ENV=development
+      - BUNDLE_PATH=/usr/local/bundle
+    depends_on:
+      - db
+    # command: bundle exec rails server -b 0.0.0.0
+    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: app_development
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+  bundle-cache:
