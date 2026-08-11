@@ -1,11 +1,27 @@
-<h1>StaticPagestop </h1>
-
 <div style="text-align:center; margin-top: 20px;">
-  <h2>お絵描きスペース</h2>
-  <canvas id="drawingCanvas" width="600" height="400" style="border:1px solid #000;"></canvas>
-</div>
+  <h1>お絵描きスペース</h1>
 
-<%# クリアボタン%>
-<div style="margin-top: 10px; text-align:center;">
-  <button id="clearCanvas" class="btn btn-danger">クリア</button>
+  <!-- スタートボタン -->
+  <div style="margin-bottom: 10px;">
+    <button id="startBtn">スタート</button>
+  <span id="countdown" style="margin-left: 10px; font-size: 20px;"></span>
+  </div>
+
+
+  <!-- パレット -->
+  <div style="margin-bottom: 10px;">
+    色：
+    <input type="color" id="colorPicker" value="#000000">
+
+    太さ：
+    <input type="range" id="sizePicker" min="1" max="20" value="3">
+
+    <button id="eraserBtn" class="btn btn-secondary">消しゴム</button>
+    <button id="penBtn" class="btn btn-primary">ペン</button>
+    <button id="clearCanvas" class="btn btn-danger">クリア</button>
+  </div>
+
+  <canvas id="drawingCanvas" width="600" height="400" style="border:1px solid #000;"></canvas>
+
+  
 </div>
