@@ -1,66 +1,55 @@
 source "https://rubygems.org"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.3"
-# The modern asset pipeline for Rails [https://github.com/rails/propshaft]
-gem "propshaft"
-# Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
+ruby "3.4.2"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
-
-# Reduces boot times through caching; required in config/boot.rb
+# 消す候補
 gem "bootsnap", require: false
 
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
+# --- Rails 本体 ---
+gem "rails", "~> 8.1.3"          # Rails 8 本体
 
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
-gem "thruster", require: false
+# --- アセット / フロントエンド ---
+gem "propshaft"                  # Rails 8 の新アセットパイプライン（Sprocketsの後継）
+gem "importmap-rails"            # JS を importmap で管理（npm不要）
+gem "turbo-rails"                # Turbo（SPA的な高速ページ遷移）
+gem "stimulus-rails"             # Stimulus（軽量JSフレームワーク）
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 1.2"
+# --- DB / サーバー ---
+gem "pg", "~> 1.1"               # PostgreSQL 用アダプタ
+gem "puma", ">= 5.0"             # Rails 標準の Web サーバー
 
+# --- API / JSON ---
+gem "jbuilder"                   # JSON API を簡単に構築
+
+# --- キャッシュ / ジョブ / Cable（Rails 8 標準の Solid 系） ---
+gem "solid_cache"                # DB バックエンドのキャッシュ
+gem "solid_queue"                # DB バックエンドの ActiveJob
+gem "solid_cable"                # DB バックエンドの ActionCable
+
+# --- 画像処理 ---
+gem "image_processing", "~> 1.2" # ActiveStorage の画像変換
+
+# --- 認証 / アップロード / 表示ロジック ---
+gem "bcrypt"                     # has_secure_password 用（認証）
+gem "carrierwave", "~> 2.2.3"    # 画像アップロード
+gem "draper"                     # View のロジックを Decorator に分離
+gem "rails-i18n"                 # 日本語化（ja.yml）
+
+# --- 開発・テスト ---
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"  # デバッガ
+  gem "bundler-audit", require: false                                # 脆弱性チェック
+  gem "brakeman", require: false                                     # セキュリティ静的解析
+  gem "rubocop-rails-omakase", require: false                        # Rails 推奨の RuboCop 設定
 
-  # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
-  gem "bundler-audit", require: false
-
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
-end
-
-group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
+  gem "pry-byebug"                                                   # デバッグ（pry + byebug）
+  gem "factory_bot_rails"                                            # テストデータ生成
+  gem "faker"                                                        # ダミーデータ生成
+  gem "rspec-rails"                                                  # RSpec（Rails テストの定番）
+  gem "annotate"                                                     # モデルに schema 情報を自動付与
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara"                 # E2E テスト（ブラウザ操作）
+  gem "selenium-webdriver"       # Capybara のブラウザドライバ
 end
