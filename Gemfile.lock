@@ -107,13 +107,12 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    carrierwave (2.2.7)
-      activemodel (>= 5.0.0)
-      activesupport (>= 5.0.0)
+    carrierwave (3.1.3)
+      activemodel (>= 6.0.0)
+      activesupport (>= 6.0.0)
       addressable (~> 2.6)
       image_processing (~> 1.1)
       marcel (~> 1.0.0)
-      mini_mime (>= 0.1.3)
       ssrf_filter (~> 1.0)
     coderay (1.1.3)
     concurrent-ruby (1.3.8)
@@ -167,7 +166,7 @@ GEM
     jbuilder (2.15.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
-    json (2.21.1)
+    json (2.21.2)
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -183,7 +182,7 @@ GEM
     marcel (1.0.4)
     matrix (0.4.3)
     method_source (1.1.0)
-    mini_magick (5.3.2)
+    mini_magick (5.3.3)
       logger
     mini_mime (1.1.5)
     minitest (6.0.6)
@@ -394,7 +393,7 @@ DEPENDENCIES
   brakeman
   bundler-audit
   capybara
-  carrierwave (~> 2.2.3)
+  carrierwave (~> 3.1.3)
   debug
   draper
   factory_bot_rails
