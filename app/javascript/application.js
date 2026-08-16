@@ -1,8 +1,6 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
 
-// お絵描き用コード
 document.addEventListener("turbo:load", () => {
   const canvas = document.getElementById("drawingCanvas");
   if (!canvas) return;
@@ -12,41 +10,79 @@ document.addEventListener("turbo:load", () => {
   let lastX = 0;
   let lastY = 0;
 
-    // スタートボタン & カウントダウン
   const startBtn = document.getElementById("startBtn");
   const countdown = document.getElementById("countdown");
   let canDraw = false;
   let timer = null;
 
+
+  const titleInput = document.getElementById("titleInput");
+  const saveBtn = document.getElementById("saveBtn");
+  const saveMessage = document.getElementById("saveMessage");
+
+  saveBtn.addEventListener("click", async () => {
+    const title = titleInput.value.trim();
+    if (!title) {
+      saveMessage.textContent = "タイトルを入力してください";
+      return;
+    }
+
+    const odai = odaiMessage.textContent;
+
+    // Canvas → Blob
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+
+    // Blob → File
+    const file = new File([blob], "drawing.png", { type: "image/png" });
+
+    // FormData に詰める
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("odai", odai);
+    formData.append("image", file);
+
+    // ★ headers を絶対に付けない（重要）
+    const res = await fetch("/drawings", {
+      method: "POST",
+      body: formData
+    });
+
+    const json = await res.json();
+    saveMessage.textContent = "保存しました！（ID: " + json.id + "）";
+  });
+
+
+
+
   startBtn.addEventListener("click", () => {
-    // すでにタイマーが動いていたら何もしない
     if (timer) return;
 
-    // 再スタート時にキャンバスをクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     canDraw = true;
     let timeLeft = 30;
 
     countdown.textContent = `残り ${timeLeft} 秒`;
     startBtn.textContent = "描画中";
 
-    // 1秒ごとにカウントダウン
-    timer = setInterval(() => {
+    // ★ setInterval を async にする（必須）
+    timer = setInterval(async () => {
       timeLeft -= 1;
       countdown.textContent = `残り ${timeLeft} 秒`;
 
       if (timeLeft <= 0) {
         clearInterval(timer);
-        timer = null; // ← これで再スタート可能になる
+        timer = null;
         canDraw = false;
+
         countdown.textContent = "終了";
         startBtn.textContent = "やりなおし";
+
       }
     }, 1000);
   });
 
-  // パレット
+  // パレット処理（あなたのコードそのまま）
   const colorPicker = document.getElementById("colorPicker");
   const sizePicker = document.getElementById("sizePicker");
   const eraserBtn = document.getElementById("eraserBtn");
@@ -108,5 +144,20 @@ document.addEventListener("turbo:load", () => {
 
     lastX = x;
     lastY = y;
-  });
+  }); 
+  
+  const odaiMessage = document.getElementById("odaiMessage");
+
+  // お題の候補
+  const odaiList = [
+    "犬の絵を描いてください",
+    "好きな食べ物を描いてください",
+    "今日の気分を絵にしてください",
+    "空想の生き物を描いてください",
+    "子どもの頃に好きだったものを描いてください"
+  ];
+
+  // ランダムに1つ選ぶ
+  const randomOdai = odaiList[Math.floor(Math.random() * odaiList.length)];
+  odaiMessage.textContent = randomOdai;
 });

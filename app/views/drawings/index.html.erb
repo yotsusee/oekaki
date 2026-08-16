@@ -1,0 +1,10 @@
+<h1>みんなの作品</h1>
+
+<% @drawings.each do |d| %>
+  <div class="mb-4">
+    <h3><%= link_to d.title, drawing_path(d) %></h3>
+    <p>お題：<%= d.odai %></p>
+    <%= image_tag d.image.url, width: 300 %>
+    <hr>
+  </div>
+<% end %>
