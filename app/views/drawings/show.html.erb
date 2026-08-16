@@ -1,0 +1,9 @@
+<h1><%= @drawing.title %></h1>
+
+<p>お題：<%= @drawing.odai %></p>
+
+<%= image_tag @drawing.image.url, width: 400 %>
+
+<div class="mt-3">
+  <%= link_to "一覧に戻る", drawings_path, class: "btn btn-secondary" %>
+</div>
