@@ -6,7 +6,7 @@ ruby "3.4.2"
 gem "bootsnap", require: false
 
 # --- Rails 本体 ---
-gem "rails", "~> 8.1.3"          # Rails 8 本体
+gem "rails", "~> 8.1.4"          # Rails 8 本体
 
 # --- アセット / フロントエンド ---
 gem "propshaft"                  # Rails 8 の新アセットパイプライン（Sprocketsの後継）
