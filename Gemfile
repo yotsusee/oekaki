@@ -15,7 +15,7 @@ gem "turbo-rails"                # Turbo（SPA的な高速ページ遷移）
 gem "stimulus-rails"             # Stimulus（軽量JSフレームワーク）
 
 # --- DB / サーバー ---
-gem "pg", "~> 1.1"               # PostgreSQL 用アダプタ
+gem "pg", "~> 1.7"               # PostgreSQL 用アダプタ
 gem "puma", ">= 5.0"             # Rails 標準の Web サーバー
 
 # --- API / JSON ---
